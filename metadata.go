@@ -16,6 +16,7 @@ type ImageSize struct {
 type ImageMetadata struct {
 	Orientation int
 	Channels    int
+	Pages       int
 	Alpha       bool
 	Profile     bool
 	Type        string
@@ -58,6 +59,8 @@ func Metadata(buf []byte) (ImageMetadata, error) {
 	}
 	defer C.g_object_unref(C.gpointer(image))
 
+	pageCount := C.vips_image_get_n_pages(image)
+
 	size := ImageSize{
 		Width:  int(image.Xsize),
 		Height: int(image.Ysize),
@@ -71,6 +74,7 @@ func Metadata(buf []byte) (ImageMetadata, error) {
 		Profile:     vipsHasProfile(image),
 		Space:       vipsSpace(image),
 		Type:        ImageTypeName(imageType),
+		Pages:       int(pageCount),
 	}
 
 	return metadata, nil

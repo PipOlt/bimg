@@ -122,3 +122,17 @@ func readFile(file string) []byte {
 	buf, _ := ioutil.ReadAll(data)
 	return buf
 }
+func TestPageCount(t *testing.T) {
+	files := []string{"test.gif", "test.tiff", "test2.pdf"}
+	for _, filename := range files {
+		m, err := Metadata(readFile(filename))
+		if err != nil {
+			t.Error(err)
+		}
+		if m.Pages < 1 {
+			t.Errorf("Page Count is below 1")
+		} else {
+			t.Logf("Page Count of %s is %d", filename, m.Pages)
+		}
+	}
+}
