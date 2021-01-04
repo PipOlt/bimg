@@ -8,7 +8,7 @@ import "C"
 
 const (
 	// Quality defines the default JPEG quality to be used.
-	Quality = 80
+	Quality = 75
 	// MaxSize defines the maximum pixels width or height supported.
 	MaxSize = 16383
 )
@@ -225,4 +225,11 @@ type Options struct {
 	Threshold      float64
 	Gamma          float64
 	OutputICC      string
+	InputICC       string
+	Palette        bool
+	// Speed defines the AVIF encoders CPU effort. Valid values are 0-8.
+	Speed          int
+
+	// private fields
+	autoRotateOnly bool
 }
